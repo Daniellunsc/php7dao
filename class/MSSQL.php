@@ -12,9 +12,11 @@ class MSSQL extends PDO {
 
         foreach($parameters as $key => $value){
             
-            $statment->bindParam($key, $value);
-            
+           
+            $this->setParam($statment, $key, $value);
         }
+
+        
         
     }
 
@@ -28,9 +30,12 @@ class MSSQL extends PDO {
 
         $stmt = $this->conn->prepare($RawQuery);
 
+
         $this->setParams($stmt, $params);
 
         $stmt->execute();
+
+        //var_dump($stmt);
 
         return $stmt;
     }
