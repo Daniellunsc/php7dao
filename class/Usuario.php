@@ -40,19 +40,11 @@ class Usuario {
 
         $sql = new MSSQL();
 
-        $result = $sql->select("SELECT * FROM tb_usuarios WHERE id = :ID", array(":ID"=>$id));
+        $results = $sql->select("SELECT * FROM tb_usuarios WHERE id = :ID", array(":ID"=>$id));
 
-       
+        if(isset($results[0])){
 
-        if(isset($result[0])){
-
-            $row = $result[0];
-
-            $this->setIdUsuario($row['id']);
-            $this->setdeslogin($row['deslogin']);
-            $this->setdessenha($row['dessenha']);
-            $this->setdtcadastro($row['dtcadastro']);
-
+            $this->setData($results[0]);  
         }
 
         //var_dump($result);
@@ -82,16 +74,37 @@ class Usuario {
         $sql = new MSSQL();
             
 		$results = $sql->select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN AND dessenha = :SENHA", array(':LOGIN'=>$login, ':SENHA'=>$password));
-		if (count($results) > 0) {
-            $row = $results[0];
-            
-                        $this->setIdUsuario($row['id']);
-                        $this->setdeslogin($row['deslogin']);
-                        $this->setdessenha($row['dessenha']);
-                        $this->setdtcadastro($row['dtcadastro']);
+        if (isset($results[0])) {
+
+            $this->setData($results[0]);  
+
 		} else {
 			throw new Exception("Login e/ou senha inválidos.");
 		}
+
+    }
+
+    public function setData($data){
+
+        $this->setIdUsuario($data['id']);
+        $this->setdeslogin($data['deslogin']);
+        $this->setdessenha($data['dessenha']);
+        $this->setdtcadastro($data['dtcadastro']);
+
+    }
+
+    public function insert(){
+      
+		$sql = new MSSQL();
+		$results = $sql->select("EXEC sp_usuarios_insert :LOGIN, :PASSWORD", array(
+			':LOGIN'=>$this->getdeslogin(),
+			':PASSWORD'=>$this->getdessenha()
+		));
+		if (count($results) > 0) {
+			$this->setData($results[0]);
+		}
+
+        
 
     }
 

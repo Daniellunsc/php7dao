@@ -14,10 +14,7 @@ class MSSQL extends PDO {
             
            
             $this->setParam($statment, $key, $value);
-        }
-
-        
-        
+        }   
     }
 
     private function setParam($statment, $key, $value){
