@@ -96,10 +96,10 @@ class Usuario {
     public function insert(){
       
 		$sql = new MSSQL();
-		$results = $sql->select("EXEC sp_usuarios_insert :LOGIN, :PASSWORD", array(
-			':LOGIN'=>$this->getdeslogin(),
-			':PASSWORD'=>$this->getdessenha()
-		));
+		$results = $sql->select("EXEC sp_usuarios_insert @pdeslogin = :LOGIN, @pdessenha = :PASSWORD;", array(
+            ':LOGIN'=>$this->getdeslogin(),
+            ':PASSWORD'=>$this->getdessenha()
+           ));
 		if (count($results) > 0) {
 			$this->setData($results[0]);
 		}

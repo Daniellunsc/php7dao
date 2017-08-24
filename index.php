@@ -3,9 +3,9 @@
 require_once("config.php");
 
 //Carrega um usuário
-// $user = new Usuario();
-// $user->loadById(4);
-// echo $user;
+ $user = new Usuario();
+ $user->loadById(1007);
+ echo $user;
 
 //Carrega uma lista de usuários
 // $lista = Usuario::getList();
@@ -21,14 +21,14 @@ require_once("config.php");
 
 // echo $usuario;
 
-$aluno = new Usuario();
+// $aluno = new Usuario();
 
-$aluno->setdeslogin("daniel");
-$aluno->setdessenha("1234");
+// $aluno->setdeslogin("daniel");
+// $aluno->setdessenha("1234");
 
-$aluno->insert();
+// $aluno->insert();
 
-echo $aluno;
+// echo $aluno;
 
 
 //echo $aluno;
