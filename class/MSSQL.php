@@ -38,14 +38,12 @@ class MSSQL extends PDO {
     }
 
     public function select($RawQuery, $params = array()){
-
-        
+ 
         $stmt = $this->query($RawQuery, $params);
         var_dump($stmt->fetchAll(PDO::FETCH_ASSOC));
         exit;
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-
     }
 
 }
