@@ -96,15 +96,50 @@ class Usuario {
     public function insert(){
       
 		$sql = new MSSQL();
-		$results = $sql->select("EXEC sp_usuarios_insert @pdeslogin = :LOGIN, @pdessenha = :PASSWORD;", array(
+		$results = $sql->select("EXEC sp_usuarios_insert :LOGIN, :PASSWORD;", array(
             ':LOGIN'=>$this->getdeslogin(),
             ':PASSWORD'=>$this->getdessenha()
-           ));
+          ));
 		if (count($results) > 0) {
 			$this->setData($results[0]);
 		}
+    }
+
+    public function update($login, $password){
+
+        $this->setdeslogin($login);
+        $this->setdessenha($password);
+
+        $sql = new MSSQL();
+
+        $sql->query("UPDATE tb_usuarios SET deslogin = :LOGIN, dessenha = :PASSWORD WHERE id = :ID", 
+        array(
+            ':LOGIN'=>$this->getdeslogin(),
+            ':PASSWORD'=>$this->getdessenha(),
+            ':ID'=>$this->getIdUsuario()
+        ));
+
+
+    }
+
+    public function delete(){
+
+        $sql = new MSSQL();
+
+        $sql->query("DELETE FROM tb_usuarios WHERE id = :ID", array(':ID'=>$this->getIdUsuario()));
+
+        $this->setIdUsuario(0);
+        $this->setdeslogin("");
+        $this->setdessenha("");
+        $this->setdtcadastro(new DateTime());
 
         
+
+    }
+
+    public function __construct($login = "", $senha=""){
+        $this->setdeslogin($login);
+        $this->setdessenha($senha);
 
     }
 
